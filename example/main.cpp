@@ -38,4 +38,10 @@ int main()
 		auto item = c.get_one(3, 500, myrand);
 		printf("%lu %lu %lu\n", item->id, item->score, item->data.aaa);
 	}
+
+	for (int i = 0; i <= 5; ++i)
+	{
+		c.erase(i);
+	}
+	printf("c size: %d\n", c.size());
 }
