@@ -12,6 +12,8 @@
 #include <iostream>
 #include <iterator>
 #include <string>
+#include <functional>
+#include <vector>
 
 using boost::multi_index_container;
 using namespace boost::multi_index;
@@ -43,7 +45,34 @@ template<class T>
 class Container : public multi_index_container <Score<T>, indexed_by <
 	ordered_unique <tag<id>, BOOST_MULTI_INDEX_MEMBER(Score<T>, uint64_t, id)>,
 	ordered_non_unique <tag<score>, BOOST_MULTI_INDEX_MEMBER(Score<T>, int64_t, score)>>
-	> {};
+	>
+{
+public:
+	const Score<T>* get_one(uint64_t id_, int64_t range, std::function<float()> random_func)
+	{
+		auto it = this->get<id>().find(id_);
+		if (it == this->get<id>().end())
+		{
+			return nullptr;
+		}
+		auto s = it->score;
+		auto it_upper = this->get<score>().upper_bound(s - range);
+		auto it_lower = this->get<score>().lower_bound(s + range);
+
+		std::vector<const Score<T>*> temps;
+		for (auto it = it_upper; it != it_lower; ++it)
+		{
+			temps.push_back(&(*it));
+		}
+
+		if (temps.size() > 0)
+		{
+			int index = int(random_func() * temps.size());
+			return temps[index];
+		}
+		return nullptr;
+	}
+};
 
 template<typename Tag, typename MultiIndexContainer>
 void print_out_by(const MultiIndexContainer& s)

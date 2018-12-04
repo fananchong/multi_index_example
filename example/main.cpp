@@ -1,4 +1,6 @@
 #include <multi_index.hpp>
+#include <time.h>
+#include <stdlib.h>
 
 struct MyData
 {
@@ -14,8 +16,15 @@ struct MyData
 using MyContainer = Container<MyData>;
 using MyScore = Score<MyData>;
 
+float myrand()
+{
+	return rand() / (RAND_MAX + 1.0);
+}
+
 int main()
 {
+	srand(time(0));
+
 	MyContainer c;
 	c.insert(MyScore{ 1, 1000, MyData{1} });
 	c.insert(MyScore{ 3, 500, MyData{2} });
@@ -24,23 +33,9 @@ int main()
 	c.insert(MyScore{ 0, 550, MyData{5} });
 	c.insert(MyScore{ 2, 1500, MyData{6} });
 
-	print_out_by<id>(c); printf("\n");
-	print_out_by<score>(c); printf("\n");
-
-	auto it_upper = c.get<score>().upper_bound(500 - 1);
-	auto it_lower = c.get<score>().lower_bound(600 + 1);
-
-	for (auto it = it_upper; it != it_lower; ++it)
+	for (int i = 0; i < 10; i++)
 	{
-		printf("%lu %lu %lu\n", it->id, it->score, it->data.aaa);
+		auto item = c.get_one(3, 500, myrand);
+		printf("%lu %lu %lu\n", item->id, item->score, item->data.aaa);
 	}
-
-	printf("\n");
-
-	auto it = c.get<id>().find(3);
-	if (it != c.get<id>().end())
-	{
-		printf("%lu %lu %lu\n", it->id, it->score, it->data.aaa);
-	}
-
 }
