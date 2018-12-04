@@ -1,0 +1,39 @@
+{
+  "configurations": [
+    {
+      "name": "Linux-Debug",
+      "generator": "Unix Makefiles",
+      "remoteMachineName": "${defaultRemoteMachineName}",
+      "configurationType": "DEBUG",
+      "remoteCMakeListsRoot": "/var/tmp/src/${workspaceHash}/${name}",
+      "cmakeExecutable": "/usr/local/bin/cmake",
+      "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+      "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
+      "remoteBuildRoot": "/var/tmp/build/${workspaceHash}/${name}",
+      "remoteInstallRoot": "/var/tmp/install/${workspaceHash}/${name}",
+      "remoteCopySources": true,
+      "remoteCopySourcesOutputVerbosity": "Normal",
+      "remoteCopySourcesConcurrentCopies": "10",
+      "remoteCopySourcesMethod": "rsync",
+      "remoteCopySourcesExclusionList": [
+        ".vs",
+        ".git",
+        ".svn"
+      ],
+      "rsyncCommandArgs": "-t --delete",
+      "remoteCopyBuildOutput": false,
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "-j 32 3>&1 1>&2 2>&3 3>&- | sed 's /var/tmp/src/........\\-....\\-....\\-....\\-............/Linux\\-Debug/\\(.*\\):\\([0-9]*\\):\\([0-9]*\\): \\1(\\2):\\3 '",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [
+        "linux_x64"
+      ],
+      "variables": [
+        {
+          "name": "CMAKE_CXX_COMPILER",
+          "value": "/usr/bin/g++"
+        }
+      ]
+    }
+  ]
+}
