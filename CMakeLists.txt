@@ -10,6 +10,6 @@ ADD_DEFINITIONS(-std=c++11)
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/contrib/boost/include/)
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/example)
 
-set (EXECUTABLE_OUTPUT_PATH ~/multi_index_example/bin)
+SET(EXECUTABLE_OUTPUT_PATH ~/multi_index_example/bin)
 
 ADD_SUBDIRECTORY(example)

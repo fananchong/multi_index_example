@@ -16,19 +16,22 @@
 using boost::multi_index_container;
 using namespace boost::multi_index;
 
+template<class T>
 struct Score
 {
 	uint64_t id;
 	int64_t score;
+	T data;
 
-	Score(uint64_t id_, int score_)
+	Score(uint64_t id_, int score_, const T& data_)
 		: id(id_)
 		, score(score_)
+		, data(data_)
 	{}
 
 	friend std::ostream& operator<<(std::ostream& os, const Score& e)
 	{
-		os << e.id << " " << e.score << std::endl;
+		os << e.id << " " << e.score << " " << e.data << std::endl;
 		return os;
 	}
 };
@@ -36,14 +39,11 @@ struct Score
 struct id {};
 struct score {};
 
-typedef multi_index_container <Score, indexed_by <
-	ordered_unique <tag<id>, BOOST_MULTI_INDEX_MEMBER(Score, uint64_t, id)>,
-	ordered_non_unique <tag<score>, BOOST_MULTI_INDEX_MEMBER(Score, int64_t, score)>>
-	> Container;
-
-typedef nth_index<Container, 0>::type IdIndex;
-typedef nth_index<Container, 1>::type ScoreIndex;
-
+template<class T>
+class Container : public multi_index_container <Score<T>, indexed_by <
+	ordered_unique <tag<id>, BOOST_MULTI_INDEX_MEMBER(Score<T>, uint64_t, id)>,
+	ordered_non_unique <tag<score>, BOOST_MULTI_INDEX_MEMBER(Score<T>, int64_t, score)>>
+	> {};
 
 template<typename Tag, typename MultiIndexContainer>
 void print_out_by(const MultiIndexContainer& s)
