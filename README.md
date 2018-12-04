@@ -10,6 +10,10 @@
 
 只需要包含 #include <multi_index.hpp>
 
+## 依赖
+
+boost::multi_index
+
 
 ## 使用例子
 
