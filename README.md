@@ -46,7 +46,7 @@ int main()
 		printf("%lu %lu %lu\n", item->id, item->score, item->data.aaa);
 	}
     
-    for (int i = 0; i <= 5; ++i)
+	for (int i = 0; i <= 5; ++i)
 	{
 		c.erase(i);
 	}
