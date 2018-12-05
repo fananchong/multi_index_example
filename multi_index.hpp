@@ -25,7 +25,7 @@ struct Score
 	int64_t score;
 	T data;
 
-	Score(uint64_t id_, int score_, const T& data_)
+	Score(uint64_t id_, int64_t score_, const T& data_)
 		: id(id_)
 		, score(score_)
 		, data(data_)
@@ -68,7 +68,10 @@ public:
 		std::vector<const Score<T>*> temps;
 		for (auto it = it_upper; it != it_lower; ++it)
 		{
-			temps.push_back(&(*it));
+			if (it->id != id_)
+			{
+				temps.push_back(&(*it));
+			}
 		}
 
 		std::vector<const Score<T>*> ret;
