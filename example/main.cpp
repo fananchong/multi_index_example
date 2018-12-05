@@ -31,12 +31,22 @@ int main()
 	c.insert(MyScore{ 4, 600, MyData{3} });
 	c.insert(MyScore{ 5, 700, MyData{4} });
 	c.insert(MyScore{ 0, 550, MyData{5} });
+	c.insert(MyScore{ 6, 800, MyData{5} });
+	c.insert(MyScore{ 7, 900, MyData{5} });
 	c.insert(MyScore{ 2, 1500, MyData{6} });
 
 	for (int i = 0; i < 10; i++)
 	{
 		auto item = c.get_one(3, 500, myrand);
 		printf("%lu %lu %lu\n", item->id, item->score, item->data.aaa);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		auto items = c.get_n(2, 3, 500, myrand);
+		printf("%lu %lu %lu | %lu %lu %lu\n",
+			items[0]->id, items[0]->score, items[0]->data.aaa,
+			items[1]->id, items[1]->score, items[1]->data.aaa);
 	}
 
 	for (int i = 0; i <= 5; ++i)
