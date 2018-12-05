@@ -68,9 +68,14 @@ int main()
 }
 ```
 
-## 函数 get_one
+## 主要接口
 
-```c++
-const Score<T>* get_one(uint64_t id_, int64_t range, std::function<float()> random_func)
-std::vector<const Score<T>*> get_n(int n, uint64_t id_, int64_t range, std::function<float()> random_func)
-```
+- get_one
+	```c++
+	const Score<T>* get_one(uint64_t id_, int64_t range, std::function<float()> random_func)
+	```
+
+- get_n
+	```
+	std::vector<const Score<T>*> get_n(int n, uint64_t id_, int64_t range, std::function<float()> random_func)
+	```
