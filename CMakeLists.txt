@@ -15,3 +15,4 @@ SET(EXECUTABLE_OUTPUT_PATH ~/multi_index_example/bin)
 
 ADD_SUBDIRECTORY(example1)
 ADD_SUBDIRECTORY(example2)
+ADD_SUBDIRECTORY(example3)
