@@ -48,22 +48,16 @@ class Container : public multi_index_container <Score<T>, indexed_by <
 	>
 {
 public:
-	const Score<T>* get_one(uint64_t id_, int64_t range, std::function<float()> random_func)
+	const Score<T>* get_one(uint64_t id_, int64_t min_, int64_t max_, std::function<float()> random_func)
 	{
-		auto ret = get_n(1, id_, range, random_func);
+		auto ret = get_n(1, id_, min_, max_, random_func);
 		return ret.size() ? ret[0] : nullptr;
 	}
 
-	std::vector<const Score<T>*> get_n(int n, uint64_t id_, int64_t range, std::function<float()> random_func)
+	std::vector<const Score<T>*> get_n(int n, uint64_t id_, int64_t min_, int64_t max_, std::function<float()> random_func)
 	{
-		auto it = this->get<id>().find(id_);
-		if (it == this->get<id>().end())
-		{
-			return std::vector<const Score<T>*>();
-		}
-		auto s = it->score;
-		auto it_upper = this->get<score>().upper_bound(s - range);
-		auto it_lower = this->get<score>().lower_bound(s + range);
+		auto it_upper = this->get<score>().upper_bound(min_);
+		auto it_lower = this->get<score>().lower_bound(max_);
 
 		std::vector<const Score<T>*> temps;
 		for (auto it = it_upper; it != it_lower; ++it)

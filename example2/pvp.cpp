@@ -74,10 +74,11 @@ std::vector<PVPINFO*> PVP::match(uint64_t roleid, int type, time_t curtime)
 	}
 	ret.push_back(&(it_role->second));
 	CHECK_TYPE(ret);
+	auto score = it_role->second.score;
 	auto range = get_range(it_role->second, curtime);
 	auto n = type * 2 - 1;
 	auto& c = m_pvp_containers[type - 1];
-	auto match_result = c.get_n(n, roleid, range, myrand);
+	auto match_result = c.get_n(n, roleid, score - range, score + range, myrand);
 	for (auto item : match_result)
 	{
 		ret.push_back(item->data);

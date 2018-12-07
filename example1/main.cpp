@@ -37,13 +37,13 @@ int main()
 
 	for (int i = 0; i < 10; i++)
 	{
-		auto item = c.get_one(3, 500, myrand);
+		auto item = c.get_one(3, 300, 800, myrand);
 		printf("%lu %lu %lu\n", item->id, item->score, item->data.aaa);
 	}
 
 	for (int i = 0; i < 10; i++)
 	{
-		auto items = c.get_n(2, 3, 500, myrand);
+		auto items = c.get_n(2, 3, 300, 800, myrand);
 		printf("%lu %lu %lu | %lu %lu %lu\n",
 			items[0]->id, items[0]->score, items[0]->data.aaa,
 			items[1]->id, items[1]->score, items[1]->data.aaa);
