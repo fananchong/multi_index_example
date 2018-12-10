@@ -60,7 +60,7 @@ public:
 		auto it_lower = this->get<score>().lower_bound(max_);
 
 		std::vector<const Score<T>*> temps;
-		for (auto it = it_upper; it != it_lower; ++it)
+		for (auto it = it_upper; it != it_lower && it != this->get<score>().end(); ++it)
 		{
 			if (it->id != id_)
 			{

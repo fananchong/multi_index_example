@@ -1,6 +1,7 @@
 #include <multi_index.hpp>
 #include <time.h>
 #include <stdlib.h>
+#include <cassert>
 
 struct MyData
 {
@@ -48,6 +49,15 @@ int main()
 			items[0]->id, items[0]->score, items[0]->data.aaa,
 			items[1]->id, items[1]->score, items[1]->data.aaa);
 	}
+
+	auto items = c.get_n(2, 3, 0, 0, myrand);
+	assert(items.size() == 0);
+	items = c.get_n(2, 3, 1, 1, myrand);
+	assert(items.size() == 0);
+	items = c.get_n(2, 3, 1, 2, myrand);
+	assert(items.size() == 0);
+	items = c.get_n(2, 3, -1, 1, myrand);
+	assert(items.size() == 0);
 
 	for (int i = 0; i <= 5; ++i)
 	{
