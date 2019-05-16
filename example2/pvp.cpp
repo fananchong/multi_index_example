@@ -88,17 +88,25 @@ std::vector<PVPINFO*> PVP::match(uint64_t roleid, int type, time_t curtime)
 
 void PVP::tick(time_t t)
 {
-	std::unordered_map<uint64_t, int> dels;
+	struct stRoleInfo
+	{
+		PVPINFO* info;
+		int done;
+	};
+	std::unordered_map<uint64_t, stRoleInfo> rs;
 	for (auto& item : m_roles)
 	{
-		auto type = item.second.type;
-		auto timestamp = item.second.timestamp;
-		auto roleid = item.first;
-		if (dels.find(roleid) != dels.end())
+		rs[item.first] = { &item.second, 0 };
+	}
+	for (auto& r : rs)
+	{
+		if (r.second.done != 0)
 		{
 			continue;
 		}
-		auto& c = m_pvp_containers[type - 1];
+		auto type = r.second.info->type;
+		auto timestamp = r.second.info->timestamp;
+		auto roleid = r.first;
 		auto match_result = match(roleid, type, t);
 		if (int(match_result.size()) >= 2 * type)
 		{
@@ -106,7 +114,11 @@ void PVP::tick(time_t t)
 			on_match(match_result, type);
 			for (auto mritem : match_result)
 			{
-				dels[mritem->roleid] = 1;
+				auto tempIT = rs.find(mritem->roleid);
+				if (tempIT != rs.end())
+				{
+					tempIT->second.done = 1;
+				}
 			}
 			del(match_result, type);
 		}
@@ -116,7 +128,11 @@ void PVP::tick(time_t t)
 			on_match(match_result, type);
 			for (auto mritem : match_result)
 			{
-				dels[mritem->roleid] = 1;
+				auto tempIT = rs.find(mritem->roleid);
+				if (tempIT != rs.end())
+				{
+					tempIT->second.done = 1;
+				}
 			}
 			del(match_result, type);
 		}
@@ -124,9 +140,5 @@ void PVP::tick(time_t t)
 		{
 			// pass
 		}
-	}
-	for (auto& item : dels)
-	{
-		m_roles.erase(item.first);
 	}
 }
